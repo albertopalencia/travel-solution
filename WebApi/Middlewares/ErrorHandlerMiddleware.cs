@@ -1,25 +1,51 @@
-﻿// Alberto Segundo Palencia Benedetty
+﻿// ***********************************************************************
+// Assembly         : WebApi
+// Author           : alberto palencia
+// Created          : 01-06-2022
+//
+// Last Modified By : alberto palencia
+// Last Modified On : 01-07-2022
+// ***********************************************************************
+// <copyright file="ErrorHandlerMiddleware.cs" company="WebApi">
+//     Copyright (c) everis. All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 
+using Application.Wrappers;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Application.Wrappers;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace WebApi.Middlewares
 {
+    /// <summary>
+    /// Class ErrorHandlerMiddleware.
+    /// </summary>
     public class ErrorHandlerMiddleware
     {
+        /// <summary>
+        /// The next
+        /// </summary>
         private readonly RequestDelegate _next;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ErrorHandlerMiddleware"/> class.
+        /// </summary>
+        /// <param name="next">The next.</param>
         public ErrorHandlerMiddleware(RequestDelegate next)
         {
             _next = next;
         }
 
+        /// <summary>
+        /// Invokes the specified context.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns>Task.</returns>
         public async Task Invoke(HttpContext context)
         {
             try
@@ -48,7 +74,7 @@ namespace WebApi.Middlewares
                         break;
                 }
 
-                var result = JsonSerializer.Serialize(responseModel);
+                var result = JsonConvert.SerializeObject(responseModel);
                 await response.WriteAsync(result);
             }
         }

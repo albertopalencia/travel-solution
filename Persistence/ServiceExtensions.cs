@@ -14,7 +14,7 @@ namespace Persistence
         public static void AddPeristenceInfraestructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
-                configuration.GetConnectionString("Travel"),
+                configuration.GetConnectionString("TravelConnection"),
                 b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
             ));
 

@@ -15,6 +15,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Domain.Entities
 {
@@ -36,17 +37,14 @@ namespace Domain.Entities
         /// <param name="title">The title.</param>
         /// <param name="sypnosis">The sypnosis.</param>
         /// <param name="numberPages">The number pages.</param>
-        /// <param name="editorial">The editorial.</param>
         /// <param name="isbn">The isbn.</param>
         /// <param name="authors">The authors.</param>
-        public Book(string title, string sypnosis, string numberPages, Editorial editorial, int? isbn = null,
-            params Author[] authors)
+        public Book(string title, string sypnosis, string numberPages, int? isbn, params Author[] authors)
         {
             Title = title;
             Sypnosis = sypnosis;
             NumberPages = numberPages;
             AddAuthors(authors);
-            AddEditorial(editorial);
             Isbn = isbn ?? 0;
         }
 
@@ -61,7 +59,7 @@ namespace Domain.Entities
         /// Gets the editorial identifier.
         /// </summary>
         /// <value>The editorial identifier.</value>
-        public int EditorialId { get; private set; }
+        public int EditorialId { get; set; }
 
         /// <summary>
         /// Gets the title.
@@ -85,13 +83,14 @@ namespace Domain.Entities
         /// Gets the authors has books.
         /// </summary>
         /// <value>The authors has books.</value>
-        public virtual ICollection<AuthorHasBook> AuthorsHasBooks { get; private set; }
+ 
+        public ICollection<AuthorHasBook> AuthorsHasBooks { get;  set; }
 
         /// <summary>
         /// Gets the editorial.
         /// </summary>
         /// <value>The editorial.</value>
-        public virtual Editorial Editorial { get; private set; }
+        public   Editorial Editorial { get; set; }
 
         /// <summary>
         /// Adds the authors.
@@ -107,19 +106,6 @@ namespace Domain.Entities
             });
 
             AuthorsHasBooks = authorList;
-        }
-
-        /// <summary>
-        /// Adds the editorial.
-        /// </summary>
-        /// <param name="editorial">The editorial.</param>
-        public void AddEditorial(Editorial editorial)
-        {
-            if (editorial.Id == 0)
-                Editorial = editorial;
-            else
-                EditorialId = editorial.Id;
-
         }
     }
 }

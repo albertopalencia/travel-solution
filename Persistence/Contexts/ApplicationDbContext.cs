@@ -23,7 +23,7 @@ namespace Persistence.Contexts
     /// Implements the <see cref="Microsoft.EntityFrameworkCore.DbContext" />
     /// </summary>
     /// <seealso cref="Microsoft.EntityFrameworkCore.DbContext" />
-    public class ApplicationDbContext : DbContext
+    public sealed class ApplicationDbContext : DbContext
     {
 
         /// <summary>
@@ -32,7 +32,8 @@ namespace Persistence.Contexts
         /// <param name="options">The options.</param>
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTrackingWithIdentityResolution;
+            ChangeTracker.LazyLoadingEnabled = true;
         }
 
         /// <summary>
