@@ -20,7 +20,6 @@ namespace WebApi
             await DefaultRoles.SeedAsync(userManager, rolManager);
             await DefaultAdminUser.SeedAsync(userManager, rolManager);
             await DefaultBasicUser.SeedAsync(userManager, rolManager);
-
             await host.RunAsync();
         }
 

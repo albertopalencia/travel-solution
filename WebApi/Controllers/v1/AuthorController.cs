@@ -15,6 +15,8 @@ using Application.Feautures.Author.Commands.CreateAuthorCommand;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Application.Feautures.Author.Queries.GetAllAuthor;
+using Microsoft.AspNetCore.Authorization;
+
 namespace WebApi.Controllers.v1
 {
     /// <summary>
@@ -42,6 +44,7 @@ namespace WebApi.Controllers.v1
         /// </summary>
         /// <param name="command">The command.</param>
         /// <returns>Task&lt;IActionResult&gt;.</returns>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Post(CreateAuthorCommand command)
         {

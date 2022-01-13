@@ -15,7 +15,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text.Json.Serialization;
 
 namespace Domain.Entities
 {
@@ -24,36 +23,29 @@ namespace Domain.Entities
     /// </summary>
     public class Book
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Book"/> class.
-        /// </summary>
+        
         public Book()
         {
             
         }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Book" /> class.
-        /// </summary>
-        /// <param name="title">The title.</param>
-        /// <param name="sypnosis">The sypnosis.</param>
-        /// <param name="numberPages">The number pages.</param>
-        /// <param name="isbn">The isbn.</param>
-        /// <param name="authors">The authors.</param>
-        public Book(string title, string sypnosis, string numberPages, int? isbn, params Author[] authors)
+
+        public Book(int idEditorial, string title, string sypnosis, string numberPages, int isbn, params Author[] authors)
         {
+            EditorialId = idEditorial;
             Title = title;
             Sypnosis = sypnosis;
             NumberPages = numberPages;
+            Isbn = isbn;
             AddAuthors(authors);
-            Isbn = isbn ?? 0;
         }
+
 
         /// <summary>
         /// Gets the isbn.
         /// </summary>
         /// <value>The isbn.</value>
         [DatabaseGenerated(DatabaseGeneratedOption.None)] 
-        public int Isbn { get; }
+        public int Isbn { get; set; }
 
         /// <summary>
         /// Gets the editorial identifier.
@@ -65,47 +57,39 @@ namespace Domain.Entities
         /// Gets the title.
         /// </summary>
         /// <value>The title.</value>
-        public string Title { get; }
+        public string Title { get; set; }
 
         /// <summary>
         /// Gets the sypnosis.
         /// </summary>
         /// <value>The sypnosis.</value>
-        public string Sypnosis { get; }
+        public string Sypnosis { get; set; }
 
         /// <summary>
         /// Gets the number pages.
         /// </summary>
         /// <value>The number pages.</value>
-        public string NumberPages { get; }
+        public string NumberPages { get; set; }
 
         /// <summary>
         /// Gets the authors has books.
         /// </summary>
         /// <value>The authors has books.</value>
  
-        public ICollection<AuthorHasBook> AuthorsHasBooks { get;  set; }
+        public virtual ICollection<AuthorHasBook> AuthorsHasBooks { get;  set; }
+         
 
-        /// <summary>
-        /// Gets the editorial.
-        /// </summary>
-        /// <value>The editorial.</value>
-        public   Editorial Editorial { get; set; }
-
-        /// <summary>
-        /// Adds the authors.
-        /// </summary>
-        /// <param name="authors">The authors.</param>
         public void AddAuthors(params Author[] authors)
         {
-            var authorList = new List<AuthorHasBook>();
-            authors.Aggregate(authorList, (current, author) =>
+            var authorsForBooks = new List<AuthorHasBook>();
+            authors.Aggregate(authorsForBooks, (current, author) =>
             {
                 current.Add(new AuthorHasBook(author, Isbn));
-                return authorList;
+                return authorsForBooks;
             });
 
-            AuthorsHasBooks = authorList;
+            AuthorsHasBooks = authorsForBooks;
+
         }
     }
 }

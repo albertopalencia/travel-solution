@@ -32,8 +32,8 @@ namespace Persistence.Contexts
         /// <param name="options">The options.</param>
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTrackingWithIdentityResolution;
-            ChangeTracker.LazyLoadingEnabled = true;
+          //  ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+           // ChangeTracker.LazyLoadingEnabled = true;
         }
 
         /// <summary>

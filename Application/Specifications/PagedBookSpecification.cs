@@ -22,7 +22,7 @@ namespace Application.Specifications
     /// Implements the <see cref="Specification{Book}" />
     /// </summary>
     /// <seealso cref="Specification{Book}" />
-    public sealed class PagedBookSpecification : Specification<Book>
+    public  class PagedBookSpecification : Specification<Book>
     {
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Application.Specifications
         public PagedBookSpecification(int pageSize, int pageNumber)
         {
             Query.Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize).AsNoTrackingWithIdentityResolution();
+                .Take(pageSize);
         }
     }
 }

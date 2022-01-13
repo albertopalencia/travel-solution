@@ -14,7 +14,7 @@
 
 using Application.DTOs;
 using Application.Feautures.Author.Commands.CreateAuthorCommand;
-using Application.Feautures.Author.Commands.CreateBookCommand;
+using Application.Feautures.Book.Commands.CreateBookCommand;
 using AutoMapper;
 using Domain.Entities;
 
@@ -36,7 +36,9 @@ namespace Application.Mappings
 
             CreateMap<Author, AuthorDto>();
 
-            CreateMap<Book, BookDto>();
+            CreateMap<Book, BookDto>().ReverseMap();
+
+            CreateMap<Editorial, EditorialDto>().ReverseMap();
             #endregion
 
             #region Commands

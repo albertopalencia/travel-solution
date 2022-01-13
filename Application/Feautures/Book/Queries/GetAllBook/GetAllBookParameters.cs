@@ -14,7 +14,7 @@
 
 using Application.Parameters;
 
-namespace Application.Feautures.Author.Queries.GetAllBook
+namespace Application.Feautures.Book.Queries.GetAllBook
 {
     /// <summary>
     /// Class GetAllBookParameters.

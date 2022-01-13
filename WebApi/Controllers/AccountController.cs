@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
-    [Route("api/account")]
-    public class AccountController : BaseApiController
+   public class AccountController : BaseApiController
     {
         [HttpPost("authenticate")]
         public async Task<IActionResult> AuthenticateAsync(AuthenticationRequest request)

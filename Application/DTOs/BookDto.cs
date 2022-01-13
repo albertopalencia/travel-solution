@@ -23,16 +23,16 @@ namespace Application.DTOs
         /// Gets or sets the number of pages.
         /// </summary>
         /// <value>The number of pages.</value>
-        public string NumberOfPages { get; set; }
+        public string NumberPages { get; set; }
         /// <summary>
         /// Gets or sets the identifier editorial.
         /// </summary>
         /// <value>The identifier editorial.</value>
-        public int IdEditorial { get; set; }
+        public int EditorialId { get; set; }
         /// <summary>
         /// Gets or sets the identifier author.
         /// </summary>
         /// <value>The identifier author.</value>
-        public int IdAuthor { get; set; }
+        public int AuthorId { get; set; }
     }
 }

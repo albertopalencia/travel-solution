@@ -12,24 +12,24 @@
 // <summary></summary>
 // ***********************************************************************
 
-using Application.DTOs;
-using Application.Interfaces;
-using Application.Wrappers;
-using AutoMapper;
-using Domain.Entities;
-using MediatR;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.DTOs;
+using Application.Interfaces;
 using Application.Specifications;
+using Application.Wrappers;
+using AutoMapper;
+using MediatR;
 
-namespace Application.Feautures.Author.Queries.GetAllBook
+namespace Application.Feautures.Book.Queries.GetAllBook
 {
     /// <summary>
     /// Class GetAllBookQuery.
-    /// Implements the <see cref="MediatR.IRequest{Application.Wrappers.PagedResponse{System.Collections.Generic.List{Application.DTOs.BookDto}}}" />
+    /// Implements the <see cref="BookDto" />
     /// </summary>
-    /// <seealso cref="MediatR.IRequest{Application.Wrappers.PagedResponse{System.Collections.Generic.List{Application.DTOs.BookDto}}}" />
+    /// <seealso cref="BookDto" />
     public class GetAllBookQuery : IRequest<PagedResponse<List<BookDto>>>
     {
 
@@ -47,16 +47,16 @@ namespace Application.Feautures.Author.Queries.GetAllBook
 
         /// <summary>
         /// Class GetAllBookQueryHandler.
-        /// Implements the <see cref="MediatR.IRequestHandler{Application.Feautures.Author.Queries.GetAllBook.GetAllBookQuery, Application.Wrappers.PagedResponse{System.Collections.Generic.List{Application.DTOs.BookDto}}}" />
+        /// Implements the <see cref="BookDto" />
         /// </summary>
-        /// <seealso cref="MediatR.IRequestHandler{Application.Feautures.Author.Queries.GetAllBook.GetAllBookQuery, Application.Wrappers.PagedResponse{System.Collections.Generic.List{Application.DTOs.BookDto}}}" />
+        /// <seealso cref="BookDto" />
         public class GetAllBookQueryHandler : IRequestHandler<GetAllBookQuery, PagedResponse<List<BookDto>>>
         {
 
-            private readonly IRepositoryAsync<Book> _repository;
+            private readonly IRepositoryAsync<Domain.Entities.Book> _repository;
             private readonly IMapper _mapper;
 
-            public GetAllBookQueryHandler(IRepositoryAsync<Book> repository, IMapper mapper)
+            public GetAllBookQueryHandler(IRepositoryAsync<Domain.Entities.Book> repository, IMapper mapper)
             {
                 _repository = repository;
                 _mapper = mapper;
@@ -73,9 +73,8 @@ namespace Application.Feautures.Author.Queries.GetAllBook
             public async Task<PagedResponse<List<BookDto>>> Handle(GetAllBookQuery request, CancellationToken cancellationToken)
             {
                 var books = await _repository.ListAsync(new PagedBookSpecification(request.PageSize, request.PageNumber), cancellationToken);
-                var booksDto = _mapper.Map<List<BookDto>>(books);
+                var booksDto = _mapper.Map<List<BookDto>>(books).ToList();
                 return new PagedResponse<List<BookDto>>(booksDto, request.PageNumber, request.PageSize);
-
             }
         }
     }

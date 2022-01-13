@@ -41,12 +41,12 @@ namespace Application.Wrappers
         /// <param name="pageSize">Size of the page.</param>
         public PagedResponse(T data, int pageNumber, int pageSize)
         {
-            PageNumber = pageNumber;
-            PageSize = pageSize;
-            Data = data;
-            Message = null;
-            Succeeded = true;
-            Errors = null;
+            this.PageNumber = pageNumber;
+            this.PageSize = pageSize;
+            this.Data = data;
+            this.Message = null;
+            this.Succeeded = true;
+            this.Errors = null;
         }
     }
 }

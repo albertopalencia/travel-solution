@@ -24,7 +24,6 @@ namespace Domain.Entities
         /// </summary>
         public Editorial()
         {
-            
         }
 
         /// <summary>
@@ -44,7 +43,7 @@ namespace Domain.Entities
         /// Gets the identifier.
         /// </summary>
         /// <value>The identifier.</value>
-        public int Id { get; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Gets the name.

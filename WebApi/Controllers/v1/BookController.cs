@@ -11,8 +11,10 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using Application.Feautures.Author.Commands.CreateBookCommand;
-using Application.Feautures.Author.Queries.GetAllBook;
+
+using System.Threading.Tasks;
+using Application.Feautures.Book.Commands.CreateBookCommand;
+using Application.Feautures.Book.Queries.GetAllBook;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +26,6 @@ namespace WebApi.Controllers.v1
     /// </summary>
     /// <seealso cref="WebApi.Controllers.BaseApiController" />
     [ApiVersion("1.0")]
-    [Authorize(Roles = "Admin")]
     public class BookController : BaseApiController
     {
         #region Methods
@@ -34,9 +35,9 @@ namespace WebApi.Controllers.v1
         /// <param name="filter">The filter.</param>
         /// <returns>IActionResult.</returns>
         [HttpGet]
-        public IActionResult Get([FromQuery] GetAllBookParameters filter)
+        public async Task<IActionResult> Get([FromQuery] GetAllBookParameters filter)
         {
-            return Ok(Mediator.Send(new GetAllBookQuery{ PageSize = filter.PageSize, PageNumber = filter.PageNumber }));
+            return Ok(await Mediator.Send(new GetAllBookQuery{ PageSize = filter.PageSize, PageNumber = filter.PageNumber }));
         }
 
 
@@ -46,13 +47,11 @@ namespace WebApi.Controllers.v1
         /// <param name="command">The command.</param>
         /// <returns>IActionResult.</returns>
         [HttpPost]
-        public IActionResult Post([FromBody] CreateBookCommand command)
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Post([FromBody] CreateBookCommand command)
         {
-            //var authors = model.Authors.Select(it => new Author(it.Name, it.LastName, it.Id)).ToArray();
-            //var result = bookService.AddBook(model.ISBN, model.Title, model.Sypnosis, model.NumberPages, new Editorial(model.Editorial.Name, model.Editorial.Campus, model.Editorial.Id), authors);
-            return Ok(Mediator.Send(command));
-            
-        } 
+          return Ok(await Mediator.Send(command));
+        }
 
         #endregion
     }

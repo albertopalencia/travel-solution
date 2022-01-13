@@ -1,23 +1,26 @@
 ﻿
-using Microsoft.AspNetCore.Authorization;
+using Application.Feautures.Editorial.Commands.CreateEditorialCommand;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using Application.Feautures.Editorial.Queries.GetAllEditorial;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers.v1
 {
     [ApiVersion("1.0")]
-    [Authorize(Roles = "Admin")]
     public class EditorialController : BaseApiController
     {
-        [HttpGet()]
-        public IActionResult Get()
+        [HttpGet]
+        public async Task<IActionResult> Get()
         {
-            return Ok(1);
+            return Ok(await Mediator.Send(new GetAllEditorialQuery()));
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Post([FromBody] CreateEditorialCommand command)
-        //{
-        //    return Ok(Mediator.Send(command));
-        //}
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] CreateEditorialCommand command)
+        {
+            return Ok( await Mediator.Send(command));
+        }
     }
 }

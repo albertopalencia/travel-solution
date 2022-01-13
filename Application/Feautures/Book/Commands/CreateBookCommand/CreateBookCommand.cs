@@ -12,24 +12,22 @@
 // <summary></summary>
 // ***********************************************************************
 
-using System.Threading;
-using System.Threading.Tasks;
 using Application.Exceptions;
 using Application.Interfaces;
 using Application.Specifications;
 using Application.Wrappers;
-using AutoMapper;
-using Domain.Entities;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Application.Feautures.Author.Commands.CreateBookCommand
+namespace Application.Feautures.Book.Commands.CreateBookCommand
 {
     /// <summary>
     /// Class CreateBookCommand.
-    /// Implements the <see cref="MediatR.IRequest{Application.Wrappers.Response{System.Int32}}" />
+    /// Implements the <see cref="MediatR.IRequest{Response{int}}" />
     /// </summary>
-    /// <seealso cref="MediatR.IRequest{Application.Wrappers.Response{System.Int32}}" />
-    public class CreateBookCommand: IRequest<Response<int>>
+    /// <seealso cref="MediatR.IRequest{Response{int}}" />
+    public class CreateBookCommand : IRequest<Response<int>>
     {
         /// <summary>
         /// Gets or sets the isbn.
@@ -50,17 +48,17 @@ namespace Application.Feautures.Author.Commands.CreateBookCommand
         /// Gets or sets the number of pages.
         /// </summary>
         /// <value>The number of pages.</value>
-        public string NumberOfPages { get; set; }
+        public string NumberPages { get; set; }
         /// <summary>
         /// Gets or sets the identifier editorial.
         /// </summary>
         /// <value>The identifier editorial.</value>
-        public int IdEditorial { get; set; }
+        public int EditorialId { get; set; }
         /// <summary>
         /// Gets or sets the identifier author.
         /// </summary>
         /// <value>The identifier author.</value>
-        public int IdAuthor { get; set; }
+        public int AuthorId { get; set; }
 
 
         /// <summary>
@@ -73,13 +71,13 @@ namespace Application.Feautures.Author.Commands.CreateBookCommand
             /// <summary>
             /// The repository
             /// </summary>
-            private readonly IRepositoryAsync<Book> _repository;
+            private readonly IRepositoryAsync<Domain.Entities.Book> _repository;
 
             /// <summary>
             /// Initializes a new instance of the <see cref="CreateBookCommandHandler"/> class.
             /// </summary>
             /// <param name="repository">The repository.</param>
-            public CreateBookCommandHandler(IRepositoryAsync<Book> repository)
+            public CreateBookCommandHandler(IRepositoryAsync<Domain.Entities.Book> repository)
             {
                 _repository = repository;
             }
@@ -95,9 +93,15 @@ namespace Application.Feautures.Author.Commands.CreateBookCommand
             {
                 var exits = await _repository.CountAsync(new BookSpecification(request.Isbn), cancellationToken);
                 if (exits > 0) throw new ApiException($"El codigo {request.Isbn} ya esta siendo utilizado");
-                var book = new Book(request.Title, request.Sypnosis, request.NumberOfPages, request.Isbn,
-                    new Domain.Entities.Author { Id = request.IdAuthor });
-                await _repository.AddAsync(book, default);
+                var book = new Domain.Entities.Book(
+                    request.EditorialId,
+                    request.Title,
+                    request.Sypnosis,
+                    request.NumberPages,
+                    request.Isbn,
+                    new Domain.Entities.Author{ Id = request.AuthorId }
+                );
+                await _repository.AddAsync(book, cancellationToken);
                 return new Response<int>(book.Isbn);
             }
         }

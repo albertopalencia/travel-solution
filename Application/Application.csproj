@@ -16,9 +16,8 @@
   <ItemGroup>
     <Folder Include="Behaviours\" />
     <Folder Include="Feautures\Authenticate\Commands\RegisterCommand\" />
-    <Folder Include="Feautures\Author\Commands\CreateEditorialCommand\" />
     <Folder Include="Feautures\Author\Queries\GetAllAuthor\" />
-    <Folder Include="Feautures\Author\Queries\GetAllEditorial\" />
+    <Folder Include="Feautures\Editorial\Queries\GetAllEditorial\" />
     <Folder Include="Filters\" />
     <Folder Include="Parameters\" />
   </ItemGroup>
